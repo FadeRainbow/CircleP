@@ -1,6 +1,7 @@
 package dev.faderainbow.circlep
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -10,13 +11,12 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowState
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.*
 
 
 /**
@@ -34,8 +34,16 @@ fun Client() {
     var password by remember {
         mutableStateOf("")
     }
-    var showDialog = remember { mutableStateOf(false) }
+    var accountName by remember {
+        mutableStateOf("")
+    }
+    var idNumber by remember {
+        mutableStateOf("")
+    }
 
+    var showDialog = remember { mutableStateOf(false) }
+    var authenticationDialog = remember { mutableStateOf(false) }
+    var neverEnabled = remember { mutableStateOf(false) }
     MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -75,6 +83,13 @@ fun Client() {
                         if (account.isEmpty() || password.isEmpty()) {
                             showDialog.value = true
                         }
+                        if(account.isNotEmpty() && password.isNotEmpty()){
+                            authenticationDialog.value = true
+                        }
+                        if (neverEnabled.value){
+                            authenticationDialog.value = false
+                        }
+
                     }
                 ) {
                     Text("原神启动")
@@ -110,6 +125,55 @@ fun Client() {
 
                 }
             },modifier = Modifier.aspectRatio(1.5f))
+    }
+
+    if (authenticationDialog.value) {
+        Column {
+            AlertDialog(
+                onDismissRequest = { authenticationDialog.value = false },
+                title = {
+                    Text(
+                        "实名认证"
+                    )
+                },
+                text = {
+                    Column {
+                        TextField(
+                            value = accountName,
+                            onValueChange = {
+                                accountName = it
+                            },
+                            singleLine = true,
+                            label = {
+                                Text("姓名")
+                            }, modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        TextField(
+                            value = idNumber,
+                            onValueChange = {
+                                idNumber = it
+                            },
+                            singleLine = true,
+                            label = {
+                                Text("身份证号码")
+                            }
+                        )
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            authenticationDialog.value = false
+                            neverEnabled.value = true
+                        }
+                    ) {
+                        Text(
+                            "确认"
+                        )
+                    }
+                }
+            )
+        }
     }
 }
 
