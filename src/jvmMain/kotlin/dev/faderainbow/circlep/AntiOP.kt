@@ -1,9 +1,11 @@
 package dev.faderainbow.circlep
 
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -29,14 +31,14 @@ import androidx.compose.ui.unit.sp
                 title = {
                     Text(
                         text = "原神最好玩",
-                        fontWeight = FontWeight.W700,
+                        fontWeight = FontWeight.W900,
                         style = MaterialTheme.typography.h6
                     )
                 },
                 text = {
                     Text(
                         text = "我是原神的狗，我是OP",
-                        fontSize = 16.sp
+                        fontSize = 20.sp//16
                     )
                 },
                 confirmButton = {
@@ -60,12 +62,12 @@ import androidx.compose.ui.unit.sp
                         }
                     ) {
                         Text(
-                            "取消",
+                            "我不是OP",
                             fontWeight = FontWeight.W700,
                             style = MaterialTheme.typography.button
                         )
                     }
-                }
+                },modifier = Modifier.aspectRatio(2f)
             )
         }
     }

@@ -24,11 +24,6 @@ import androidx.compose.ui.window.application
  *@date 2023/7/6
  *@time 10:48
  */
-/**
- * Column垂直布局
- * Row水平布局
- * Box 是一个能够将里面的子项依次按照顺序堆叠的布局组件
- */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 @Preview
@@ -36,104 +31,88 @@ fun Client() {
     var account by remember {
         mutableStateOf("")
     }
-    var password by remember{
+    var password by remember {
         mutableStateOf("")
     }
-    val openDialog = remember { mutableStateOf(true) }
+    var showDialog = remember { mutableStateOf(false) }
 
     MaterialTheme {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    )
-    {
-        Column(
-        ){
-            TextField(
-                value = account,
-                onValueChange = {
-                    account = it
-                },
-                singleLine = true,
-                label = {
-                    Text("账户")
-                },
-                leadingIcon = {
-                    Icon(Icons.Filled.AccountCircle,"账号")
-                }
-            )
-            TextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                },
-                singleLine = true,
-                label = {
-                    Text("密码")
-                },
-                leadingIcon = {
-                    Icon(Icons.Filled.Lock,"密码")
-                }
-            )
-            Button(
-                onClick= {
-                    if (account.isEmpty() || password.isEmpty()) {
-                        if (openDialog.value) {
-                            AlertDialog(
-                                onDismissRequest = {
-                                    openDialog.value = false
-                                },
-                                title = {
-                                    Text(
-                                        text = "警告>_<",
-                                        fontWeight = FontWeight.W700,
-                                        style = MaterialTheme.typography.h6
-                                    )
-                                },
-                                text = {
-                                    Text(
-                                        text = "旅行者大人请输入账号密码注入我的身体哦~",
-                                        fontSize = 16.sp
-                                    )
-                                },
-                                confirmButton = {
-                                    TextButton(
-                                        onClick = {
-                                            openDialog.value = false
-                                        },
-                                    ) {
-                                        Text(
-                                            "我了解辣",
-                                            fontWeight = FontWeight.W700,
-                                            style = MaterialTheme.typography.button
-                                        )
-                                    }
-                                },
-                                dismissButton = {
-                                    TextButton(
-                                        onClick = {
-                                            openDialog.value = false
-
-                                        }
-                                    ) {
-                                        Text(
-                                            "我了解哦",
-                                            fontWeight = FontWeight.W700,
-                                            style = MaterialTheme.typography.button
-                                        )
-                                    }
-                                }
-                            )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        )
+        {
+            Column(
+            ) {
+                TextField(
+                    value = account,
+                    onValueChange = {
+                        account = it
+                    },
+                    singleLine = true,
+                    label = {
+                        Text("账户")
+                    },
+                    leadingIcon = {
+                        Icon(Icons.Filled.AccountCircle, "账号")
+                    }
+                )
+                TextField(
+                    value = password,
+                    onValueChange = {
+                        password = it
+                    },
+                    singleLine = true,
+                    label = {
+                        Text("密码")
+                    },
+                    leadingIcon = {
+                        Icon(Icons.Filled.Lock, "密码")
+                    }
+                )
+                Button(
+                    onClick = {
+                        if (account.isEmpty() || password.isEmpty()) {
+                            showDialog.value = true
                         }
                     }
+                ) {
+                    Text("原神启动")
                 }
-            ){
-                Text("原神启动")
             }
         }
     }
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = {
+                Text(
+                    text = "警告>_<",
+                    fontWeight = FontWeight.W700,
+                    style = MaterialTheme.typography.h6
+                )
+            },
+            text = {
+                Text(
+                    text = "旅行者请输入账户密码到我身体里哦~",
+                    fontSize = 16.sp
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog.value = false }
+                ) {
+                    Text(
+                        "好的捏",
+                        fontWeight = FontWeight.W700,
+                        style = MaterialTheme.typography.button
+                    )
+
+                }
+            },modifier = Modifier.aspectRatio(2f))
     }
 }
+
     fun main() = application {
         Window(
             onCloseRequest = ::exitApplication,
@@ -147,3 +126,4 @@ fun Client() {
             AntiOP.Dialog()
         }
     }
+
