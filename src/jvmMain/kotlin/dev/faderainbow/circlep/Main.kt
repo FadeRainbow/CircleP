@@ -109,7 +109,7 @@ fun Client() {
                     )
 
                 }
-            },modifier = Modifier.aspectRatio(2f))
+            },modifier = Modifier.aspectRatio(1.5f))
     }
 }
 
