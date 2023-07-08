@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.*
+import dev.faderainbow.circlep.utils.RandomUtils
 
 
 /**
@@ -40,10 +41,17 @@ fun Client() {
     var idNumber by remember {
         mutableStateOf("")
     }
-
+    var verificationCode by remember {
+        mutableStateOf("")
+    }
+    var verificationCode2 by remember {
+        mutableStateOf(RandomUtils.randomString(RandomUtils.randomLength(3,6)))
+    }
+    //验证成功
     var showDialog = remember { mutableStateOf(false) }
     var authenticationDialog = remember { mutableStateOf(false) }
     var neverEnabled = remember { mutableStateOf(false) }
+    var verificationSuccessful by remember {mutableStateOf(false)}
     MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -89,10 +97,31 @@ fun Client() {
                         if (neverEnabled.value){
                             authenticationDialog.value = false
                         }
-
+                        if(verificationCode !=  verificationCode2){
+                            verificationSuccessful = false
+                            verificationCode2= RandomUtils.randomString(RandomUtils.randomLength(3,6))
+                        }
                     }
                 ) {
                     Text("原神启动")
+                }
+                //验证码 verificationCode
+                Row(
+                ){
+
+                        TextField(
+                        value = verificationCode,
+                        onValueChange = {
+                            verificationCode = it
+                        },
+                        singleLine = false,
+                        label = {
+                            Text("验证码")
+                        }
+                    )
+                    Text(
+                        text = verificationCode2
+                    )
                 }
             }
         }
