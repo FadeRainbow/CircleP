@@ -1,10 +1,8 @@
-package dev.faderainbow.circlep
+package dev.faderainbow.circlep.ui.helper
 
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.text.font.FontWeight
@@ -19,14 +17,15 @@ import androidx.compose.ui.unit.sp
  */
 
 @OptIn(ExperimentalMaterialApi::class)
-    object AntiOP {
+    object LoginHelper {
+
     @Composable
-    fun Dialog() {
-        val openDialog = remember { mutableStateOf(true) }
-        if (openDialog.value) {
+    fun AntiOP() {
+        var openDialog by remember { mutableStateOf(true) }
+        if (openDialog) {
             AlertDialog(
                 onDismissRequest = {
-                    openDialog.value = false
+                    openDialog = false
                 },
                 title = {
                     Text(
@@ -44,7 +43,7 @@ import androidx.compose.ui.unit.sp
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            openDialog.value = false
+                            openDialog = false
                         },
                     ) {
                         Text(
@@ -57,8 +56,11 @@ import androidx.compose.ui.unit.sp
                 dismissButton = {
                     TextButton(
                         onClick = {
-                            openDialog.value = false
-
+                            openDialog = false
+                            System.exit(1145141919810.toInt())
+                            /**
+                             * Exit
+                             */
                         }
                     ) {
                         Text(
@@ -67,8 +69,8 @@ import androidx.compose.ui.unit.sp
                             style = MaterialTheme.typography.button
                         )
                     }
-                },modifier = Modifier.aspectRatio(2f)
+                }, modifier = Modifier.aspectRatio(2f)
             )
         }
     }
-}
+    }
